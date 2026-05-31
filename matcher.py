@@ -76,13 +76,22 @@ def pre_filter(jobs, preferences):
     return filtered
 
 
-# --- Load API key from .env ---
+# --- Load API key from .env or environment ---
 def load_api_key():
-    """Reads GROQ_API_KEY from a .env file in the same folder."""
+    """
+    Reads GROQ_API_KEY from environment first (GitHub Actions),
+    then from .env file (local Mac).
+    """
+    # GitHub Actions sets this via secrets
+    env_key = os.environ.get("GROQ_API_KEY")
+    if env_key:
+        return env_key.strip()
+
+    # Local .env file
     env_path = ".env"
     if not os.path.exists(env_path):
         raise RuntimeError(
-            "No .env file found. Create one and add: GROQ_API_KEY=your_key"
+            "No GROQ_API_KEY found in environment or .env file."
         )
 
     with open(env_path, "r") as f:

@@ -1,16 +1,15 @@
 """
 main.py
-The brain. Runs the full pipeline on a schedule:
+The brain. Runs the full pipeline once and exits:
 
-  preferences → fetcher → dedup → matcher → notifier → mark seen → sleep
+  preferences → fetcher → dedup → matcher → notifier → mark seen
 
-Run with:
+Scheduling is handled by GitHub Actions (runs every 4 hours via cron).
+
+Run locally with:
     python3 main.py
-
-Stops on Ctrl+C.
 """
 
-import time
 import traceback
 from datetime import datetime
 
@@ -19,9 +18,6 @@ from database    import init_db, make_job_id, is_seen, mark_seen
 from fetcher     import fetch_all
 from matcher     import match_jobs
 from notifier    import notify
-
-# How often the pipeline runs, in hours
-RUN_EVERY_HOURS = 4
 
 
 def run_once(preferences):
@@ -41,7 +37,7 @@ def run_once(preferences):
     for job in all_jobs:
         job_id = make_job_id(job["title"], job["company"], job["location"])
         if not is_seen(job_id):
-            job["_id"] = job_id   # carry it forward to mark_seen later
+            job["_id"] = job_id
             new_jobs.append(job)
 
     print(f"[main] {len(new_jobs)} new listings (after dedup)")
@@ -58,7 +54,7 @@ def run_once(preferences):
     else:
         print("[main] No strong matches this round. Staying silent.")
 
-    # 5. Mark ALL new jobs as seen (matched or not) so we don't re-score them
+    # 5. Mark ALL new jobs as seen (matched or not)
     for job in new_jobs:
         mark_seen(job["_id"], job["title"], job["company"])
 
@@ -80,23 +76,13 @@ def main():
         preferences = collect_preferences()
 
     print(f"\n[main] Loaded prefs for phone: {preferences.get('phone')}")
-    print(f"[main] Bot will run every {RUN_EVERY_HOURS} hour(s). Ctrl+C to stop.\n")
 
-    # Infinite loop — run, sleep, run, sleep
-    while True:
-        try:
-            run_once(preferences)
-        except Exception:
-            # Catch any error in a single run so the bot doesn't die overnight
-            print("\n[main] Something went wrong this run:")
-            traceback.print_exc()
-            print("[main] Continuing to next cycle anyway.\n")
-
-        sleep_seconds = RUN_EVERY_HOURS * 60 * 60
-        next_run = datetime.now().timestamp() + sleep_seconds
-        next_run_str = datetime.fromtimestamp(next_run).strftime("%H:%M:%S")
-        print(f"\n[main] Sleeping {RUN_EVERY_HOURS}h. Next run at {next_run_str}.\n")
-        time.sleep(sleep_seconds)
+    # Single run — GitHub Actions handles the schedule
+    try:
+        run_once(preferences)
+    except Exception:
+        print("\n[main] Something went wrong this run:")
+        traceback.print_exc()
 
 
 if __name__ == "__main__":

@@ -137,11 +137,25 @@ def collect_preferences():
 
 
 def load_preferences():
-    """Load preferences from file. Returns None if not set up yet."""
-    if not os.path.exists(PREFS_FILE):
-        return None
-    with open(PREFS_FILE, "r") as f:
-        return json.load(f)
+    """
+    Load preferences from preferences.json (local) or PREFERENCES_JSON
+    environment variable (GitHub Actions). Returns None if neither exists.
+    """
+    # First try local file (for running on your Mac)
+    if os.path.exists(PREFS_FILE):
+        with open(PREFS_FILE, "r") as f:
+            return json.load(f)
+
+    # Fallback: env var (for GitHub Actions)
+    env_prefs = os.environ.get("PREFERENCES_JSON")
+    if env_prefs:
+        try:
+            return json.loads(env_prefs)
+        except json.JSONDecodeError:
+            print("[preferences] PREFERENCES_JSON env var is not valid JSON.")
+            return None
+
+    return None
 
 
 if __name__ == "__main__":

@@ -3,8 +3,7 @@
 .env.example
 .env.local
 
-# Local data
-seen_jobs.db
+# Local-only files
 preferences.json
 
 # Python junk

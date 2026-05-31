@@ -113,22 +113,42 @@ def classify_location(location_str):
 
 
 # ──────────────────────────────────────────
-# .env loader
+# Env loader (env vars first, .env file fallback)
 # ──────────────────────────────────────────
 
 def load_env():
+    """
+    Reads credentials from environment variables first (GitHub Actions),
+    falls back to .env file (local Mac).
+    """
+    env = {}
+    needed = ["TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_WHATSAPP_FROM"]
+
+    # Try environment first
+    for key in needed:
+        if os.environ.get(key):
+            env[key] = os.environ[key].strip()
+
+    # If all needed values came from env, we're done
+    if all(k in env for k in needed):
+        return env
+
+    # Otherwise, try local .env file for whatever's missing
     env_path = ".env"
     if not os.path.exists(env_path):
-        raise RuntimeError("No .env file found.")
+        if not env:
+            raise RuntimeError("No Twilio credentials in environment or .env file.")
+        return env  # partial, but better than nothing
 
-    env = {}
     with open(env_path, "r") as f:
         for line in f:
             line = line.strip()
             if line.startswith("#") or "=" not in line:
                 continue
             key, value = line.split("=", 1)
-            env[key.strip()] = value.strip().strip('"').strip("'")
+            key = key.strip()
+            if key not in env:  # don't overwrite env-var values
+                env[key] = value.strip().strip('"').strip("'")
     return env
 
 
