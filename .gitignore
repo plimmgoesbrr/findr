@@ -1,0 +1,15 @@
+# Secrets — NEVER commit these
+.env
+.env.example
+.env.local
+
+# Local data
+seen_jobs.db
+preferences.json
+
+# Python junk
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+.vscode/
