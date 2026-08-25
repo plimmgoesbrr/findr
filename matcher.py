@@ -20,7 +20,7 @@ import requests
 # --- Settings you can tune ---
 MATCH_THRESHOLD = 8        # only listings scored >= this get sent (0-10)
 BATCH_SIZE      = 25       # smaller batches = fewer drops per batch
-MODEL           = "llama-3.3-70b-versatile"   # Groq's main model, free tier
+MODEL           = "openai/gpt-oss-120b"  # Groq's main model, free tier
 TIMEOUT         = 30
 SLEEP_BETWEEN_BATCHES = 2  # seconds — Groq lets us go faster than Gemini
 MAX_BATCHES     = 10       # safety cap (40 x 10 = 400 listings max per run)
