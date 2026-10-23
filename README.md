@@ -2,7 +2,7 @@
 
 A personal internship bot that scrapes listings, uses AI to match them against your preferences, and sends the best ones to your WhatsApp every 4 hours — fully automated in the cloud, free to run.
 
-> Built in 2 days by [Karthik](https://github.com/plimmgoestotim) as a learning project. Currently runs on GitHub Actions for a single user. See [What's next](#whats-next) for scaling ideas.
+> Built in 2 days as a learning project. Currently runs on GitHub Actions for a single user.
 
 ---
 
