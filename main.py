@@ -75,7 +75,10 @@ def main():
         print("First time running — let's set up your preferences.")
         preferences = collect_preferences()
 
-    print(f"\n[main] Loaded prefs for phone: {preferences.get('phone')}")
+    # Mask phone in logs — only show country code + last 4 digits
+    phone = preferences.get("phone", "")
+    masked = f"{phone[:3]}***{phone[-4:]}" if len(phone) > 7 else "***"
+    print(f"\n[main] Loaded prefs for phone: {masked}")
 
     # Single run — GitHub Actions handles the schedule
     try:
