@@ -205,7 +205,7 @@ def send_whatsapp(message, phone_number, env):
     try:
         resp = requests.post(url, data=data, auth=HTTPBasicAuth(sid, token), timeout=15)
         if resp.status_code in (200, 201):
-            print(f"  [notifier] WhatsApp sent to {phone_number} ({len(message)} chars)")
+            print(f"  [notifier] WhatsApp sent ({len(message)} chars)")
             return True
         else:
             print(f"  [notifier] Twilio error {resp.status_code}: {resp.text[:200]}")
