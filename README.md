@@ -2,7 +2,7 @@
 
 A personal internship bot that scrapes listings, uses AI to match them against your preferences, and sends the best ones to your WhatsApp every 4 hours — fully automated in the cloud, free to run.
 
-> Built in 2 days as a learning project. Currently runs on GitHub Actions for a single user.
+> Built in 2 days by [Karthik](https://github.com/plimmgoestotim) as a learning project. Currently runs on GitHub Actions for a single user. See [Roadmap](#roadmap) for scaling ideas.
 
 ---
 
@@ -157,7 +157,7 @@ If you fork this repo, **you must create your own `.env` and GitHub Secrets** �
 
 ---
 
-## Bugs you'll probably hit
+## Troubleshooting
 
 | Symptom | Cause | Fix |
 |---|---|---|
@@ -170,13 +170,11 @@ If you fork this repo, **you must create your own `.env` and GitHub Secrets** �
 
 ---
 
-## What's next
+## Roadmap
 
-- [ ] Add [Unstop](https://unstop.com) as a 4th source for broader Indian coverage
-- [ ] Multi-user web signup (currently one user per deployment)
-- [ ] Replace Twilio sandbox with WhatsApp Business API (needs Meta business verification)
-- [ ] Learn-from-feedback — thumbs up/down on messages to train a per-user ranker
-- [ ] Dashboard to view past matches and apply-tracking
+- **Multi-user web signup** — currently one user per deployment
+- **WhatsApp Business API** — replace the Twilio sandbox for production use
+- **Learn-from-feedback ranking** — thumbs up/down to train a per-user scorer
 
 ---
 
@@ -186,4 +184,4 @@ MIT. Fork it, break it, make it yours.
 
 ---
 
-Built with Groq, Twilio, GitHub Actions, and far too many 429 errors.
+Built with Groq, Twilio, and GitHub Actions.
