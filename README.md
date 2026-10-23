@@ -30,7 +30,7 @@ If nothing new matched this run, the bot stays silent. No spam.
 | Dedup | `sqlite3` (built-in) | Single-file DB, no server needed |
 | AI matching | Groq free tier (`openai/gpt-oss-120b`) | 14,400 req/day free, fast inference |
 | Notifications | Twilio WhatsApp Sandbox | Free $15 credit, no WhatsApp Business approval needed |
-| Scheduler | GitHub Actions cron | Free for public/private repos, 2000 min/month |
+| Scheduler | GitHub Actions cron | Free, unlimited minutes on public repos |
 | Secrets | GitHub Secrets + local `.env` | Keys never touch committed code |
 
 ---
