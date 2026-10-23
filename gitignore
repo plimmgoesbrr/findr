@@ -1,0 +1,16 @@
+# Secrets — NEVER commit these
+.env
+.env.local
+
+# Personal data (phone number, prefs)
+preferences.json
+
+# Python junk
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+.vscode/
+.idea/
+
+# Note: .env.example and preferences.example.json ARE committed — they're templates
